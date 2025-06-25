@@ -4,6 +4,18 @@ import { Toaster } from "react-hot-toast";
 import { usePathname, useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
+type AuthUser = {
+  id: number;
+  name: string;
+  email: string;
+  roles: string;
+};
+
+type AuthState = {
+  user: AuthUser | null;
+  userToken: string;
+};
+
 export default function AppWrapper({
   children,
 }: {
@@ -11,7 +23,7 @@ export default function AppWrapper({
 }) {
   const pathname = usePathname();
   const router = useRouter();
-  const auth = useSelector((state: any) => state.auth);
+const auth = useSelector((state: { auth: AuthState }) => state.auth);
   const isLoading = auth === undefined;
   useEffect(() => {
     if (!isLoading) {

@@ -1,12 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import "../../Admin Doctor/AdminDoctorDashboard/AdminDoctorDashboard.css";
-import { FaSackDollar } from "react-icons/fa6";
-import { FaCalendarAlt } from "react-icons/fa";
-import { IoIosPerson } from "react-icons/io";
-import { SlCalender } from "react-icons/sl";
+
 import { MdOutlineDateRange } from "react-icons/md";
-import Booking from "../Booking/Booking";
 import AllBookingAppointmentInforamtion from "../Booking/AllBookingAppointmentInforamtion";
 import toast from "react-hot-toast";
 import { store } from "@/lib/store";
@@ -26,58 +22,58 @@ interface AppointmentDetailsModel {
   servicesId: number;
 }
 
-interface PatientInterface {
-  id: number;
-  Name: string;
-  Image: string;
-  BookingStatus: string;
-  Payment: string;
-  Age: number;
-  Date_and_Time: string;
-  Fees: number;
-}
-const Patients: PatientInterface[] = [
-  {
-    id: 1,
-    Name: "Ahmed",
-    Image: "/assets/Admin_Doctor/download(1).jfif",
-    BookingStatus: "Pending",
-    Payment: "CASH",
-    Age: 31,
-    Date_and_Time: "5 Oct 2024, 12:00 PM",
-    Fees: 50,
-  },
-  {
-    id: 2,
-    Name: "Mohamed",
-    Image: "/assets/Admin_Doctor/download(2).jfif",
-    BookingStatus: "Cancelled",
-    Payment: "CASH",
-    Age: 31,
-    Date_and_Time: "5 Oct 2024, 12:00 PM",
-    Fees: 50,
-  },
-  {
-    id: 3,
-    Name: "Ammar",
-    Image: "/assets/Admin_Doctor/download(3).jfif",
-    BookingStatus: "Completed",
-    Payment: "CASH",
-    Age: 31,
-    Date_and_Time: "5 Oct 2024, 12:00 PM",
-    Fees: 50,
-  },
-  {
-    id: 4,
-    Name: "Rashed",
-    Image: "/assets/Admin_Doctor/download(4).jfif",
-    BookingStatus: "Completed",
-    Payment: "CASH",
-    Age: 31,
-    Date_and_Time: "5 Oct 2024, 12:00 PM",
-    Fees: 50,
-  },
-];
+// interface PatientInterface {
+//   id: number;
+//   Name: string;
+//   Image: string;
+//   BookingStatus: string;
+//   Payment: string;
+//   Age: number;
+//   Date_and_Time: string;
+//   Fees: number;
+// }
+// const Patients: PatientInterface[] = [
+//   {
+//     id: 1,
+//     Name: "Ahmed",
+//     Image: "/assets/Admin_Doctor/download(1).jfif",
+//     BookingStatus: "Pending",
+//     Payment: "CASH",
+//     Age: 31,
+//     Date_and_Time: "5 Oct 2024, 12:00 PM",
+//     Fees: 50,
+//   },
+//   {
+//     id: 2,
+//     Name: "Mohamed",
+//     Image: "/assets/Admin_Doctor/download(2).jfif",
+//     BookingStatus: "Cancelled",
+//     Payment: "CASH",
+//     Age: 31,
+//     Date_and_Time: "5 Oct 2024, 12:00 PM",
+//     Fees: 50,
+//   },
+//   {
+//     id: 3,
+//     Name: "Ammar",
+//     Image: "/assets/Admin_Doctor/download(3).jfif",
+//     BookingStatus: "Completed",
+//     Payment: "CASH",
+//     Age: 31,
+//     Date_and_Time: "5 Oct 2024, 12:00 PM",
+//     Fees: 50,
+//   },
+//   {
+//     id: 4,
+//     Name: "Rashed",
+//     Image: "/assets/Admin_Doctor/download(4).jfif",
+//     BookingStatus: "Completed",
+//     Payment: "CASH",
+//     Age: 31,
+//     Date_and_Time: "5 Oct 2024, 12:00 PM",
+//     Fees: 50,
+//   },
+// ];
 const todayDate = new Date();
 
 function AdminDoctorAppointments() {

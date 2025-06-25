@@ -11,7 +11,6 @@ import Booking, { BookingStatus } from "../Booking/Booking";
 import toast from "react-hot-toast";
 import StatusFilterDropdown from "../StatusFilterDropDownList/StatusFilterDropDownList";
 import { store } from "@/lib/store";
-import { CodeSquare } from "lucide-react";
 
 export interface AppointmentWithDoctorAdmin {
   appointmentId: number;
@@ -22,7 +21,9 @@ export interface AppointmentWithDoctorAdmin {
   status: string;
   patientName: string;
   patientAddress: string;
-  appointmentDetails: AppointmentDetailsModel[];
+  appointmentDetails: {
+    $values: AppointmentDetailsModel[];
+  };
 }
 interface AppointmentDetailsModel {
   subTotalPrice: number;
@@ -60,7 +61,7 @@ function AdminDashboard() {
             Appointmentsdata.$values.length > 0
           ) {
             const AppointmentsWithDoctorAdmin: AppointmentWithDoctorAdmin[] =
-              Appointmentsdata.$values.map((appoitmentDetails) => {
+              Appointmentsdata.$values.map((appoitmentDetails:AppointmentWithDoctorAdmin) => {
                 return {
                   appointmentId: appoitmentDetails.appointmentId,
                   workingHourId: appoitmentDetails.workingHourId,

@@ -1,25 +1,23 @@
 import { ActionType } from "@/Reducers/loginReducer/loginReducer";
 import { actionTypes } from "../../Reducers/loginReducer/loginActionTypes";
-import { backendURL } from "../../lib/Slices/auth/authRules";
 import { login, userObject } from "@/utils/types";
-import { ExecException } from "child_process";
 export type checkCredentialsExistInSystemType = {
   checked: boolean;
   Token: string | null;
   user: userObject | null;
 };
-const checkEmailExistInSystem: (
-  emailOruserName: string | undefined
-) => Promise<boolean | undefined> = async (emailOruserName) => {
-  if (emailOruserName !== "" && emailOruserName !== undefined) {
-    const response = await fetch(
-      "http://citypulse.runasp.net/api/User/findUserByEmail/" + emailOruserName
-    );
-    const data = await response.json();
-    const existingEmail: boolean = JSON.parse(JSON.stringify(data));
-    return existingEmail;
-  }
-};
+// const checkEmailExistInSystem: (
+//   emailOruserName: string | undefined
+// ) => Promise<boolean | undefined> = async (emailOruserName) => {
+//   if (emailOruserName !== "" && emailOruserName !== undefined) {
+//     const response = await fetch(
+//       "http://citypulse.runasp.net/api/User/findUserByEmail/" + emailOruserName
+//     );
+//     const data = await response.json();
+//     const existingEmail: boolean = JSON.parse(JSON.stringify(data));
+//     return existingEmail;
+//   }
+// };
 export const checkCredentialsExistInSystem: (
   emailOruserName: string | undefined,
   password: string | undefined
@@ -28,7 +26,7 @@ export const checkCredentialsExistInSystem: (
   password
 ) => {
   try {
-    debugger;
+    
     const user: login = {
       username: emailOruserName,
       password: password,
@@ -89,7 +87,7 @@ export const checkCredentialsExistInSystem: (
 export const changePasswordUsingUserNameAndPassword: (
   userName: string,
   password: string
-) => Promise<boolean> = async (userName, password) => {
+) => Promise<boolean> = async () => {
   const response = await fetch("link");
   const data = await response.json();
   const changePassword: boolean = JSON.parse(JSON.stringify(data));
@@ -98,7 +96,7 @@ export const changePasswordUsingUserNameAndPassword: (
 export const changePasswordUsingEmailAndPassword: (
   userName: string,
   password: string
-) => Promise<boolean> = async (userName, password) => {
+) => Promise<boolean> = async () => {
   const response = await fetch("link");
   const data = await response.json();
   const changePassword: boolean = JSON.parse(JSON.stringify(data));

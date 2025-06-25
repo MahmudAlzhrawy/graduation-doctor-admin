@@ -3,17 +3,13 @@ import React, { useEffect, useReducer, useRef, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { fadeIn, fadeOut } from "react-animations";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { IoIosClose } from "react-icons/io";
-import loginReducer, {
-  initialState,
-} from "../Reducers/loginReducer/loginReducer";
+import loginReducer, { getInitialState } from "../Reducers/loginReducer/loginReducer";
+
 import {
   checkCredentialsExistInSystem,
   HandelLoginSubmitButton,
 } from "../ExternalFunctions/AccountFunctions/Account";
 import ErrorMessageForLoginPage, { stage } from "./ErrorMessageForLoginPage";
-import { unauthorized, useRouter } from "next/navigation";
-import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../lib/Slices/auth/authSlice";
 import { actionTypes } from "@/Reducers/loginReducer/loginActionTypes";
@@ -29,9 +25,9 @@ const FadeOut = styled.div`
 function Login() {
   const [isOpened, setIsOpened] = useState(true);
   const dispatchStore = useDispatch();
-  const router = useRouter();
+  
   const [showPassword, setShowPassword] = useState(false);
-  const [loginState, dispatch] = useReducer(loginReducer, initialState);
+const [loginState, dispatch] = useReducer(loginReducer, undefined, getInitialState);
   const emailInputRef = useRef<HTMLInputElement>(null);
   const passwordInputRef = useRef<HTMLInputElement>(null);
   const loginForm = useRef<HTMLFormElement>(null);
@@ -39,9 +35,11 @@ function Login() {
   const [ErrorMessageShowed, setErrorMessageShowed] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [disableSubmmitButton, setDisableSubmmitButton] = useState(false);
-
+useEffect(()=>{setIsOpened(true)},[])
   useEffect(() => {
-    if (Number(localStorage.getItem("number_of_failed_trials")) >= 5) {
+  if (typeof window !== "undefined") {
+    const trials = Number(localStorage.getItem("number_of_failed_trials") || "0");
+    if (trials >= 5) {
       setDisableSubmmitButton(true);
       const timer = setTimeout(() => {
         setDisableSubmmitButton(false);
@@ -51,7 +49,9 @@ function Login() {
       }, 30000);
       return () => clearTimeout(timer);
     }
-  }, [loginState.number_of_failed_trials.value]);
+  }
+}, [loginState.number_of_failed_trials.value]);
+
 
   useEffect(() => {
     if (ErrorMessageShowed && loginState.errors.value !== "") {

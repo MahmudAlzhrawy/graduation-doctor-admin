@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import { HiUser } from "react-icons/hi";
-import { backendURL } from "@/lib/Slices/auth/authRules";
 import { IoIosCheckmark } from "react-icons/io";
 import { HiX } from "react-icons/hi";
 type Props = {
