@@ -7,7 +7,8 @@ import { IoSunny } from "react-icons/io5";
 import { MdDarkMode } from "react-icons/md";
 import { IoPerson } from "react-icons/io5";
 import useMediaQuery from "../../Hooks/useMediaQuery";
-import { usePathname} from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import { store } from "@/lib/store";
 import { backendURL } from "@/lib/Slices/auth/authRules";
 import { useSelector } from "react-redux";
 interface AdminDoctorModel {
@@ -38,9 +39,8 @@ const AdminLayout = ({
     profileImage: "",
     userName: "",
   });
-const userId = useSelector((state: { auth: { user?: { id: string }; userToken: string } }) => state.auth.user?.id);
-const userToken = useSelector((state: { auth: { user?: { id: string }; userToken: string } }) => state.auth.userToken);
-
+  const userId = useSelector((state: any) => state.auth.user?.id);
+  const userToken = useSelector((state: any) => state.auth.userToken);
   useEffect(() => {
     async function fetchData() {
       try {
@@ -149,7 +149,14 @@ const userToken = useSelector((state: { auth: { user?: { id: string }; userToken
               <IoSunny className="icon active" />
               <MdDarkMode className="icon" />
             </div>
-            <div className="profile">
+            <div
+              className={
+                pathname === "/admin-doctor/show-all-schduling-dates" ||
+                pathname === "/admin-doctor/admin-doctor-appointments"
+                  ? "mt-12 profile"
+                  : "profile"
+              }
+            >
               <div className="info">
                 <p>
                   Hey, <b>{adminDoctorObject.nameU}</b>
@@ -157,11 +164,23 @@ const userToken = useSelector((state: { auth: { user?: { id: string }; userToken
                 </p>
               </div>
               {adminDoctorObject.profileImage !== "ProfileImage" ? (
-                <div className="profile-photo bg-slate-300">
+                <div
+                  className={
+                    pathname === "/admin-doctor/show-all-schduling-dates" ||
+                    pathname === "/admin-doctor/admin-doctor-appointments"
+                      ? "hidden"
+                      : "profile-photo bg-slate-300"
+                  }
+                >
                   <img
                     src={backendURL + "/" + adminDoctorObject.profileImage}
                     alt="adminDoctorAvatar"
-                    className="text-3xl text-indigo-500 rounded-full"
+                    className={
+                      pathname === "/admin-doctor/show-all-schduling-dates" ||
+                      pathname === "/admin-doctor/admin-doctor-appointments"
+                        ? "hidden"
+                        : "text-3xl text-indigo-500 rounded-full"
+                    }
                   />
                 </div>
               ) : (
