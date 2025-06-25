@@ -49,6 +49,7 @@ export default function UpdateDateForm(props: Props) {
       status: true,
       maxAppointments: 15,
     },
+    enableReinitialize: true,
     validationSchema: Yup.object().shape({
       workingDate: Yup.string()
         .required("Working date is required")
@@ -130,6 +131,67 @@ export default function UpdateDateForm(props: Props) {
       }
     },
   });
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const firstResponse = await fetch(
+          `https://citypulse.runasp.net/api/ClinicStaf/by-admin/${
+            store.getState().auth.user?.id
+          }`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json", // or other content types
+              Authorization: `Bearer ${store.getState().auth.userToken}`, // Sending the token as a Bearer token
+            },
+          }
+        );
+        if (firstResponse.ok) {
+          const data = await firstResponse.json();
+          const clinicId = data.clinicId;
+          const secondResponse = await fetch(
+            `https://citypulse.runasp.net/api/ClinicStaf/ShowAllDatesByClinicId?clinicid=${clinicId}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json", // or other content types
+                Authorization: `Bearer ${store.getState().auth.userToken}`, // Sending the token as a Bearer token
+              },
+            }
+          );
+          if (secondResponse.ok) {
+            const data = await secondResponse.json();
+            console.log(data);
+            if (Array.isArray(data.$values) && data.$values.length > 0) {
+              debugger;
+              const updatedDate = data.$values.find(
+                (date) => Number(date.id) === Number(props.dateId)
+              );
+              console.log(updatedDate);
+              if (updatedDate) {
+                formik.setValues({
+                  workingDate: updatedDate.workingDate,
+                  startTime: updatedDate.startTime,
+                  endTime: updatedDate.endTime,
+                  waitingHours: updatedDate.waitingHours,
+                  status: updatedDate.status,
+                  maxAppointments: updatedDate.maxAppointments,
+                });
+              }
+            }
+          } else {
+            toast.error("Error found !");
+          }
+        } else {
+          toast.error("Error found !");
+        }
+      } catch (e) {
+        console.log("Error", e);
+      }
+    }
+    fetchData();
+  }, [props.dateId]);
 
   return (
     <form

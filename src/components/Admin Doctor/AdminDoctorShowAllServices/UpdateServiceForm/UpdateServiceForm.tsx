@@ -4,7 +4,7 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Service } from "@/utils/types";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { store } from "@/lib/store";
 import toast from "react-hot-toast";
 
@@ -13,13 +13,20 @@ type Props = {
 };
 
 export default function UpdateServiceForm({ serviceId }: Props) {
+  const [initialValues, setInitialValues] = useState({
+    id: 0,
+    price: "",
+    clinicId: 1,
+    serviceName: "",
+    description: "",
+  });
   const formik = useFormik({
     initialValues: {
       id: 0,
-      price: 0,
+      price: "",
       clinicId: 1,
-      serviceName: "string",
-      description: "string",
+      serviceName: "",
+      description: "",
     },
     enableReinitialize: true,
     validationSchema: Yup.object({
@@ -113,21 +120,23 @@ export default function UpdateServiceForm({ serviceId }: Props) {
             const data = await secondResponse.json();
             console.log(data);
             if (Array.isArray(data.$values) && data.$values.length > 0) {
-              //
-              const serviceApi = data.$values.filter(
-                (service) => service.id !== serviceId
+              debugger;
+              const updatedService = data.$values.find(
+                (service) => Number(service.id) === Number(serviceId)
               );
-              const service: Service = {
-                id: serviceApi.id,
-                price: serviceApi.price,
-                serviceName: serviceApi.serviceName,
-                description: serviceApi.description,
-              };
-              console.log(service);
-              formik.setValues({ ...service, clinicId: clinicId });
+              console.log(updatedService);
+              if (updatedService) {
+                formik.setValues({
+                  id: serviceId,
+                  price: updatedService.price,
+                  clinicId: clinicId,
+                  serviceName: updatedService.serviceName,
+                  description: updatedService.description,
+                });
+              }
             }
           } else {
-            toast.error("No services found !");
+            toast.error("Error found !");
           }
         } else {
           toast.error("Error found !");
@@ -137,7 +146,8 @@ export default function UpdateServiceForm({ serviceId }: Props) {
       }
     }
     fetchData();
-  }, []);
+  }, [serviceId]);
+
   return (
     <form
       onSubmit={formik.handleSubmit}

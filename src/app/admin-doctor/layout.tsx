@@ -152,7 +152,8 @@ const AdminLayout = ({
             <div
               className={
                 pathname === "/admin-doctor/show-all-schduling-dates" ||
-                pathname === "/admin-doctor/admin-doctor-appointments"
+                pathname === "/admin-doctor/admin-doctor-appointments" ||
+                pathname.startsWith("/admin-doctor/update-scheduling-date")
                   ? "mt-12 profile"
                   : "profile"
               }
@@ -167,7 +168,8 @@ const AdminLayout = ({
                 <div
                   className={
                     pathname === "/admin-doctor/show-all-schduling-dates" ||
-                    pathname === "/admin-doctor/admin-doctor-appointments"
+                    pathname === "/admin-doctor/admin-doctor-appointments" ||
+                    pathname.startsWith("/admin-doctor/update-scheduling-date")
                       ? "hidden"
                       : "profile-photo bg-slate-300"
                   }
@@ -177,7 +179,10 @@ const AdminLayout = ({
                     alt="adminDoctorAvatar"
                     className={
                       pathname === "/admin-doctor/show-all-schduling-dates" ||
-                      pathname === "/admin-doctor/admin-doctor-appointments"
+                      pathname === "/admin-doctor/admin-doctor-appointments" ||
+                      pathname.startsWith(
+                        "/admin-doctor/update-scheduling-date"
+                      )
                         ? "hidden"
                         : "text-3xl text-indigo-500 rounded-full"
                     }

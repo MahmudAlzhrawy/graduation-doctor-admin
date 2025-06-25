@@ -3,6 +3,7 @@ import React, { useRef } from "react";
 import "../../../components/Admin Doctor/AdminDoctorSidebar/AdminDoctorSidebar.css";
 import { IoClose } from "react-icons/io5";
 import { MdDashboard } from "react-icons/md";
+import { IoPersonSharp } from "react-icons/io5";
 import { FaNotesMedical } from "react-icons/fa";
 import { BsFillFileMedicalFill } from "react-icons/bs";
 import { GoReport } from "react-icons/go";
