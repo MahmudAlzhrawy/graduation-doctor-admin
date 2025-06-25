@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+.name_input {
+    @apply bg-transparent border border-gray-300 text-gray-900 rounded-md block w-72 p-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white
+}
+
+.appointment_fee_input {
+    @apply bg-transparent border border-gray-300 text-gray-900 rounded-md block w-12 p-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white
+}
+
+.address_input {
+    @apply bg-transparent border border-gray-300 text-gray-900 rounded-md block w-40 p-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white
+}
+
+.about_input {
+    @apply bg-transparent border border-gray-300 text-gray-900 rounded-md block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white
+}

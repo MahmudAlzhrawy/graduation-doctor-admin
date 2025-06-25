@@ -1,0 +1,124 @@
+@import "tailwindcss";
+
+aside .top {
+    @apply bg-white flex items-center justify-between mt-6
+}
+
+aside .logo {
+    @apply flex gap-3
+}
+
+aside .logo img {
+    @apply w-8 h-8
+}
+
+aside .top .close {
+    @apply hidden
+}
+
+aside .top .close .icon {
+    @apply text-2xl
+}
+
+aside .sidebar {
+    @apply bg-white h-[86vh] flex flex-col relative top-12
+}
+
+aside h3 {
+    @apply font-sans font-medium
+}
+
+aside .sidebar a, aside .sidebar div {
+    @apply flex items-center gap-4 h-14 ml-8 text-slate-400 transition-all duration-300 ease-in-out
+}
+
+aside .sidebar .active {
+    @apply bg-slate-200 text-indigo-500 ml-0
+}
+
+aside .sidebar .active:before {
+    content: "";
+    @apply w-[6px] h-full bg-indigo-500;
+}
+
+aside .sidebar .active .icon {
+    margin-left: calc(1rem - 3px);
+    @apply text-indigo-500;
+}
+
+aside .sidebar a:hover,
+aside .sidebar div:hover {
+    @apply text-indigo-500
+}
+
+aside .sidebar a .icon,
+aside .sidebar div .icon {
+    @apply transition-all duration-300 ease-in-out
+}
+
+aside .sidebar a:hover .icon,
+aside .sidebar div:hover .icon {
+    @apply ml-4
+}
+
+@media screen and (max-width: 1200px) {
+    aside .logo {
+        @apply bg-transparent flex justify-center items-center
+    }
+
+    aside .logo h2 {
+        @apply hidden
+    }
+
+    aside .sidebar h3 {
+        @apply hidden
+    }
+
+    aside .sidebar .Link {
+        @apply w-24 hover:cursor-pointer
+    }
+
+    aside .sidebar .Link:last-child {
+        @apply relative mt-7
+    }
+}
+
+
+@media screen and (max-width: 786px) {
+    aside {
+
+        @apply fixed left-[-100%] bg-white w-[35%] z-[3] shadow-2xl shadow-white pr-5 hidden;
+        animation: showMenu 400ms ease forwards;
+        -webkit-animation: showMenu 400ms ease forwards;
+    }
+
+    @keyframes showMenu {
+        to {
+            left: 0;
+        }
+    }
+
+    aside .logo {
+        @apply ml-4
+    }
+
+    aside .logo h2 {
+        @apply inline
+    }
+
+    aside .sidebar h3 {
+        @apply inline
+    }
+
+    aside .sidebar .Link {
+        @apply w-full h-14
+    }
+
+    aside .sidebar .Link:last-child {
+        @apply absolute bottom-[-15px]
+    }
+
+    aside .top .close {
+        @apply inline-block cursor-pointer
+    }
+}

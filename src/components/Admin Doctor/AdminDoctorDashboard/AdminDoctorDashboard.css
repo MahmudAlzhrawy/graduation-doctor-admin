@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+main {
+    @apply bg-blue-50 w-full md:w-[55%] pt-5 px-[1rem]
+}
+
+main .date {
+    @apply bg-white rounded-lg w-32 mt-4 my-2 mx-6 flex flex-row gap-x-[0.5px] items-center
+}
+
+main .date input[type='date'] {
+    @apply bg-transparent text-zinc-700
+}
+
+main .insights {
+    @apply grid grid-cols-3 gap-6
+}
+
+main .insights>div {
+    @apply bg-white rounded-md p-5 mt-4 shadow-2xl shadow-gray-500 transition-all duration-300 ease-in-out
+}
+
+main .insights>div:hover {
+    @apply shadow-none
+}
+
+main .insights .sales, main .expenses, main .income {
+    @apply flex flex-row gap-x-2
+}
+
+main .icon-container {
+    @apply bg-blue-50 text-blue-600 text-sm rounded-md w-20 h-[80%] flex justify-center items-center
+}
+
+main .icon-container .icon {
+    @apply text-blue-600 w-10 h-10
+}
+
+main .insights>div.income .icon {
+    @apply bg-transparent
+}
+
+main .insights>div .middle {
+    @apply flex items-center justify-between ml-4 font-sans font-bold text-2xl
+}
+
+main .insights>div .middle h3 {
+    @apply mt-4 mr-0 ml-0 mb-2 font-sans font-semibold text-gray-500 text-xl
+}
+
+/*Start Recent Orders Section */
+main .recent-orders {
+    @apply mt-8
+}
+
+main .recent-orders h2 {
+    @apply mb-3
+}
+
+main .recent-orders table {
+    @apply bg-white w-full rounded-2xl py-5 px-5 text-center mb-14
+}
+
+main .recent-orders table:hover {
+    @apply shadow-none
+}
+
+main .recent-orders table tbody tr td {
+    @apply h-11 border-b border-solid border-gray-200 text-gray-600
+}
+
+main .recent-orders table tbody tr:last-child td {
+    @apply border-none
+}
+
+/*End Recent Orders Section */
+
+/*Media Queries*/
+@media screen and (max-width: 1200px) {
+    main .insights {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+}
+
+@media screen and (max-width: 786px) {
+    main {
+        @apply mt-32 px-5 py-4
+    }
+}

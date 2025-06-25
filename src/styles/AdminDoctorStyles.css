@@ -1,0 +1,147 @@
+@import "tailwindcss";
+
+.text-muted {
+    @apply text-gray-500
+}
+
+.right {
+    @apply w-[23%] mr-auto pt-5 bg-blue-50
+}
+
+.right .top {
+    @apply flex justify-end gap-8
+}
+
+.right .top button {
+    @apply hidden
+}
+
+.right .top button .icon {
+    @apply text-2xl
+}
+
+.right .top .theme-toggle {
+    @apply bg-gray-200 w-16 h-6 rounded-xl cursor-pointer hidden items-center justify-between
+}
+
+.right .top .theme-toggle .icon {
+    @apply text-lg w-1/2 h-full flex justify-center items-center
+}
+
+.right .top .theme-toggle .active {
+    @apply bg-indigo-500 text-white rounded-xl
+}
+
+.right .top .profile {
+    @apply flex gap-8 text-right
+}
+
+.right .top .profile .profile-photo {
+    @apply border-2 border-indigo-500 rounded-full w-10 h-10 flex items-center justify-center relative right-4
+}
+
+.right .recent-updates {
+    @apply mt-4
+}
+
+.right .recent-updates h2 {
+    @apply mb-3
+}
+
+.right .recent-updates .updates {
+    @apply bg-white p-5 rounded-2xl shadow-2xl shadow-gray-500 transition-all duration-300 ease-in-out
+}
+
+.right .recent-updates .updates:hover {
+    @apply shadow-none
+}
+
+.right .recent-updates .updates .update {
+    @apply grid gap-x-6 mb-4;
+    grid-template-columns: 2.6rem auto;
+}
+
+.right .recent-updates .updates .update .profile-photo {
+    @apply border-2 border-indigo-500 rounded-full w-14 h-14 flex items-center justify-center bg-slate-300
+}
+
+.right .sales-analytics {
+    @apply mt-8
+}
+
+.right .sales-analytics h2 {
+    @apply mb-3
+}
+
+.right .sales-analytics .item {
+    @apply bg-white flex items-center gap-4 mb-8 px-5 py-6 rounded-3xl shadow-2xl shadow-gray-500 transition-all duration-300 ease-in-out
+}
+
+.right .sales-analytics .item:hover {
+    @apply shadow-none
+}
+
+.right .sales-analytics .item .right {
+    @apply bg-white m-0 w-full flex items-start justify-between
+}
+
+.right .sales-analytics .item .right .info .card-text {
+    @apply text-lg font-bold
+}
+
+.right .sales-analytics .item .icon {
+    @apply p-2 rounded-full bg-indigo-500 text-white flex justify-center items-center
+}
+
+.right .sales-analytics .item.offline .icon {
+    @apply bg-red-500
+}
+
+.right .sales-analytics .item.customars .icon {
+    @apply bg-green-300
+}
+
+.right .sales-analytics .add-item {
+    @apply bg-transparent text-indigo-500 border-2 border-dashed border-indigo-500;
+    @apply flex justify-center items-center
+}
+
+.right .sales-analytics .add-item div {
+    @apply flex items-center gap-3
+}
+
+.right .sales-analytics .add-item div h3 {
+    @apply font-bold
+}
+
+/*Media Queries*/
+@media screen and (max-width: 1200px) {
+    aside .logo h2 {
+        @apply hidden
+    }
+}
+
+@media screen and (max-width: 786px) {
+    .right {
+        margin: 83px auto 0rem;
+        @apply w-1/2 pr-[4%]
+    }
+
+    .right .top {
+        padding: 0 0.8rem;
+        box-shadow: 0 1rem 1rem;
+        @apply fixed top-0 left-0 items-center h-20 w-full m-0 bg-white z-[2] shadow-2xl shadow-gray-500;
+    }
+
+    .right .top .theme-toggle {
+        @apply w-16 absolute left-[66%]
+    }
+
+    .right .profile .info {
+        @apply hidden
+    }
+
+    .right .top button {
+        @apply inline-block bg-transparent text-black cursor-pointer absolute left-4
+    }
+}
