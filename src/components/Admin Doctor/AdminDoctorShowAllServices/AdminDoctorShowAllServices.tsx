@@ -1,6 +1,7 @@
 "use client";
 import { store } from "@/lib/store";
 import { Service } from "@/utils/types";
+import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FaEdit, FaTrash } from "react-icons/fa";
@@ -118,6 +119,7 @@ function AdminDoctorShowAllServices() {
       `/admin-doctor/update-service?serviceId=${serviceId}`
     );
   }
+  const pathname = usePathname();
   return (
     <div
       className={"p-6 mx-auto bg-blue-50 md:w-[62%] pt-10 px-[1rem] h-max mb-5"}

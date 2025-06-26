@@ -3,6 +3,7 @@
 
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { Service } from "@/utils/types";
 import { store } from "@/lib/store";
 import toast from "react-hot-toast";
 

@@ -47,26 +47,30 @@ export default function CreateAppointmentForm() {
     clinicId: 1,
   });
 
-const handleChange = (
-  e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-) => {
-  const { name, value, type } = e.target;
+  const token = "your_auth_token_here"; // Replace this with actual token (or get from context/localStorage)
 
-  const isCheckbox = type === "checkbox";
-  const checkedValue = isCheckbox
-    ? (e.target as HTMLInputElement).checked
-      ? "Available"
-      : "Unavailable"
-    : value;
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value, type, checked } = e.target;
 
-  setFormData((prev) => ({
-    ...prev,
-    [name]: ["clinicId", "waitingHours", "appointmentCount", "maxAppointments"].includes(name)
-      ? Number(checkedValue)
-      : checkedValue,
-  }));
-};
-
+    setFormData((prev) => ({
+      ...prev,
+      [name]:
+        type === "checkbox"
+          ? checked
+            ? "Available"
+            : "Unavailable"
+          : [
+              "clinicId",
+              "waitingHours",
+              "appointmentCount",
+              "maxAppointments",
+            ].includes(name)
+          ? Number(value)
+          : value,
+    }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

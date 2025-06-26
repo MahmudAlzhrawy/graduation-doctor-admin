@@ -1,8 +1,8 @@
 "use client";
-import React from "react";
 import { HiUser } from "react-icons/hi";
 import { IoIosCheckmark } from "react-icons/io";
 import { HiX } from "react-icons/hi";
+
 type Props = {
   index: number;
   key: string;
@@ -13,6 +13,7 @@ type Props = {
   patientName: string;
   patientBookingTime: string;
   bookingStatus: string;
+  transactionStatus: string;
   Payment: string;
   Address: string;
   Date_and_Time: string;
@@ -23,32 +24,14 @@ type Props = {
     appointmentId: number,
     clinicId: number
   ) => void;
+  SendFromChildForSecondTime: (appointmentId: number) => void;
 };
 enum BookingStatus {
   Completed = "Completed",
   Pending = "Pending",
   Cancelled = "Cancelled",
 }
-/*
 
- <h2 className="pl-5 pr-5 h-16 flex flex-row gap-x-10 justify-between items-center font-sans font-bold border-b border-gray-200 text-gray-700 text-xl">
-          <div className="bg-rose-300 w-1/4 h-full flex flex-row justify-between items-center">
-            <h3>#</h3>
-            <h3 className="mr-[30%]">Patient</h3>
-          </div>
-          <div className="bg-blue-300 w-[40%] h-full flex flex-row justify-between items-center">
-            <h3>Payment</h3>
-            <h3>Age</h3>
-            <h3 className="mr-[20%]" style={{ wordSpacing: "1.5px" }}>
-              Date & Time
-            </h3>
-          </div>
-          <div className="bg-gray-300 w-1/4 h-full flex flex-row justify-between items-center">
-            <h3>Fees</h3>
-            <h3>Action</h3>
-          </div>
-        </h2>
-*/
 const AllBookingAppointmentInforamtion = (props: Props) => {
   return (
     <div
@@ -131,6 +114,12 @@ const AllBookingAppointmentInforamtion = (props: Props) => {
             {props.bookingStatus}
           </span>
         )}
+        <div
+          onClick={() => props.SendFromChildForSecondTime(props.appointmentId)}
+          className="bg-[#8200DB] w-28 h-14 rounded-xl flex justify-center items-center space-y-2 p-2 text-white hover:bg-purple-700 cursor-pointer"
+        >
+          Show
+        </div>
       </div>
     </div>
   );

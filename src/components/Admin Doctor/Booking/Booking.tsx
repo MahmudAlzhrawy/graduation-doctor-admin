@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { HiUser } from "react-icons/hi";
+import { backendURL } from "@/lib/Slices/auth/authRules";
 import { IoIosCheckmark } from "react-icons/io";
 import { HiX } from "react-icons/hi";
 type Props = {
@@ -31,7 +32,7 @@ const Booking = (props: Props) => {
   if (props.bookingStatus === BookingStatus.Pending)
     return (
       <div
-       
+        key={props.key}
         className="flex justify-between items-center h-20 pl-10 pr-5 hover:bg-gray-100"
       >
         <div className="flex flex-row gap-x-4">
@@ -105,6 +106,7 @@ const Booking = (props: Props) => {
   else
     return (
       <div
+        key={props.key}
         className="flex justify-between items-center h-20 pl-10 pr-5 hover:bg-gray-100"
         onClick={() => {
           props.SendFromChildForSecondOnce(props.appointmentId, props.clinicId);

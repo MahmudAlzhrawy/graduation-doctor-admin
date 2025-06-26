@@ -1,7 +1,9 @@
 "use client";
 import "./AdminDoctorProfile.css";
 import React, { useEffect, useRef, useState } from "react";
+import * as Yup from "yup";
 import { useFormik } from "formik";
+type Props = {};
 enum toggleEditSaveButtonEnum {
   Edit = "Edit",
   Save = "Save",
@@ -22,7 +24,7 @@ enum togglenameForShowOrForEditEnum {
   Edit = "Edit",
   Show = "Show",
 }
-const AdminDoctorProfile = () => {
+const AdminDoctorProfile = (props: Props) => {
   const [toggleEditSaveButton, setToggleEditSaveButton] = useState<
     toggleEditSaveButtonEnum.Edit | toggleEditSaveButtonEnum.Save
   >(toggleEditSaveButtonEnum.Edit);
@@ -139,7 +141,11 @@ const AdminDoctorProfile = () => {
     onSubmit: async (values) => {
       const formData = new FormData();
       formData.append("nameU", values.name);
-     
+      formData.append("userName", values.userName);
+      formData.append("email", values.email);
+      formData.append("password", values.password);
+      formData.append("confirmPassword", values.confirmPassword);
+      formData.append("phoneNumber", values.phoneNumber);
       formData.append("address", values.address);
     },
   });

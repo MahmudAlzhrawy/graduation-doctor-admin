@@ -3,8 +3,7 @@
 
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Service } from "@/utils/types";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { store } from "@/lib/store";
 import toast from "react-hot-toast";
 
@@ -13,13 +12,6 @@ type Props = {
 };
 
 export default function UpdateServiceForm({ serviceId }: Props) {
-  const [initialValues, setInitialValues] = useState({
-    id: 0,
-    price: "",
-    clinicId: 1,
-    serviceName: "",
-    description: "",
-  });
   const formik = useFormik({
     initialValues: {
       id: 0,

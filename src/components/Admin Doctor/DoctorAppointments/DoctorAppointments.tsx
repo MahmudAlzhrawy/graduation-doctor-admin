@@ -1,11 +1,16 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import "../../Admin Doctor/AdminDoctorDashboard/AdminDoctorDashboard.css";
-
+import { FaSackDollar } from "react-icons/fa6";
+import { FaCalendarAlt } from "react-icons/fa";
+import { IoIosPerson } from "react-icons/io";
+import { SlCalender } from "react-icons/sl";
 import { MdOutlineDateRange } from "react-icons/md";
+import Booking from "../Booking/Booking";
 import AllBookingAppointmentInforamtion from "../Booking/AllBookingAppointmentInforamtion";
 import toast from "react-hot-toast";
 import { store } from "@/lib/store";
+import Swal from "sweetalert2";
 interface AppointmentWithDoctorAdmin {
   appointmentId: number;
   workingHourId: number;
@@ -22,58 +27,58 @@ interface AppointmentDetailsModel {
   servicesId: number;
 }
 
-// interface PatientInterface {
-//   id: number;
-//   Name: string;
-//   Image: string;
-//   BookingStatus: string;
-//   Payment: string;
-//   Age: number;
-//   Date_and_Time: string;
-//   Fees: number;
-// }
-// const Patients: PatientInterface[] = [
-//   {
-//     id: 1,
-//     Name: "Ahmed",
-//     Image: "/assets/Admin_Doctor/download(1).jfif",
-//     BookingStatus: "Pending",
-//     Payment: "CASH",
-//     Age: 31,
-//     Date_and_Time: "5 Oct 2024, 12:00 PM",
-//     Fees: 50,
-//   },
-//   {
-//     id: 2,
-//     Name: "Mohamed",
-//     Image: "/assets/Admin_Doctor/download(2).jfif",
-//     BookingStatus: "Cancelled",
-//     Payment: "CASH",
-//     Age: 31,
-//     Date_and_Time: "5 Oct 2024, 12:00 PM",
-//     Fees: 50,
-//   },
-//   {
-//     id: 3,
-//     Name: "Ammar",
-//     Image: "/assets/Admin_Doctor/download(3).jfif",
-//     BookingStatus: "Completed",
-//     Payment: "CASH",
-//     Age: 31,
-//     Date_and_Time: "5 Oct 2024, 12:00 PM",
-//     Fees: 50,
-//   },
-//   {
-//     id: 4,
-//     Name: "Rashed",
-//     Image: "/assets/Admin_Doctor/download(4).jfif",
-//     BookingStatus: "Completed",
-//     Payment: "CASH",
-//     Age: 31,
-//     Date_and_Time: "5 Oct 2024, 12:00 PM",
-//     Fees: 50,
-//   },
-// ];
+interface PatientInterface {
+  id: number;
+  Name: string;
+  Image: string;
+  BookingStatus: string;
+  Payment: string;
+  Age: number;
+  Date_and_Time: string;
+  Fees: number;
+}
+const Patients: PatientInterface[] = [
+  {
+    id: 1,
+    Name: "Ahmed",
+    Image: "/assets/Admin_Doctor/download(1).jfif",
+    BookingStatus: "Pending",
+    Payment: "CASH",
+    Age: 31,
+    Date_and_Time: "5 Oct 2024, 12:00 PM",
+    Fees: 50,
+  },
+  {
+    id: 2,
+    Name: "Mohamed",
+    Image: "/assets/Admin_Doctor/download(2).jfif",
+    BookingStatus: "Cancelled",
+    Payment: "CASH",
+    Age: 31,
+    Date_and_Time: "5 Oct 2024, 12:00 PM",
+    Fees: 50,
+  },
+  {
+    id: 3,
+    Name: "Ammar",
+    Image: "/assets/Admin_Doctor/download(3).jfif",
+    BookingStatus: "Completed",
+    Payment: "CASH",
+    Age: 31,
+    Date_and_Time: "5 Oct 2024, 12:00 PM",
+    Fees: 50,
+  },
+  {
+    id: 4,
+    Name: "Rashed",
+    Image: "/assets/Admin_Doctor/download(4).jfif",
+    BookingStatus: "Completed",
+    Payment: "CASH",
+    Age: 31,
+    Date_and_Time: "5 Oct 2024, 12:00 PM",
+    Fees: 50,
+  },
+];
 const todayDate = new Date();
 
 function AdminDoctorAppointments() {
@@ -176,9 +181,143 @@ function AdminDoctorAppointments() {
       console.log(exception);
     }
   }
-
+  async function SendFromChildForSecondTime(appointmentId: number) {
+    try {
+      const APPOINTMENT = "Appointment";
+      const firstResponse = await fetch(
+        `https://citypulse.runasp.net/api/User/GetTransaction?ReferenceId=${appointmentId}&type=${APPOINTMENT}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.getState().auth.userToken}`, // Sending the token as a Bearer token
+          },
+        }
+      );
+      if (firstResponse.ok) {
+        const userTransaction = await firstResponse.json();
+        console.log(userTransaction);
+        Swal.fire({
+          title: `<strong>🧾 Transaction Details</strong>`,
+          html: `
+    <div style="text-align: left; font-size: 15px; line-height: 1.6;">
+      <p><b>🆔 Transaction ID:</b> ${userTransaction.transactionId}</p>
+      <p><b>👤 User ID:</b> ${userTransaction.userId}</p>
+      <p><b>📅 Date:</b> ${new Date(
+        userTransaction.transactionDate
+      ).toLocaleString()}</p>
+      <p><b>💵 Amount:</b> $${userTransaction.amount}</p>
+      <p><b>💳 Payment Method:</b> ${userTransaction.paymentMethod}</p>
+      <p><b>🔁 Type:</b> ${userTransaction.transactionType}</p>
+      <p><b>📌 Status:</b> <span style="${
+        userTransaction.status === "Completed"
+          ? "color: green;"
+          : userTransaction.status === "Pending"
+          ? "color: orange;"
+          : "color: red;"
+      }"><b>${userTransaction.status}</b></span></p>
+      <p><b>🔗 Reference ID:</b> ${userTransaction.referenceId}</p>
+    </div>
+  `,
+          icon: "info",
+          showCancelButton: true,
+          confirmButtonColor: "#2563EB",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Edit",
+          cancelButtonText: "Cancel",
+        }).then(async (result) => {
+          if (result.isConfirmed) {
+            try {
+              Swal.fire({
+                title: `<strong>✏️ Edit Transaction Status</strong>`,
+                html: `
+              <select id="statusDropdown" style="
+                width: 100%;
+                padding: 10px 12px;
+                font-size: 15px;
+                border: 1px solid #ccc;
+                border-radius: 6px;
+                background-color: #f9f9f9;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+                transition: border-color 0.2s ease-in-out;
+                " 
+                class="swal2-input"
+              >
+                <option value="Completed">Completed</option>
+                <option value="Refused">Refused</option>
+                <option value="Pending">Pending</option>
+              </select>
+            `,
+                preConfirm: () => {
+                  const selected = (
+                    document.getElementById(
+                      "statusDropdown"
+                    ) as HTMLSelectElement
+                  )?.value;
+                  if (!selected) {
+                    Swal.showValidationMessage("You must choose a status");
+                  }
+                  return selected;
+                },
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonColor: "#2563EB",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Update",
+                cancelButtonText: "Cancel",
+              }).then(async (result) => {
+                if (result.isConfirmed) {
+                  const selectedStatus = result.value;
+                  const secondResponse = await fetch(
+                    `https://citypulse.runasp.net/api/User/UpdateTransactionStatus?transactionId=${userTransaction.transactionId}&newStatus=${selectedStatus}`,
+                    {
+                      method: "PUT",
+                      headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${
+                          store.getState().auth.userToken
+                        }`, // Sending the token as a Bearer token
+                      },
+                    }
+                  );
+                  if (secondResponse.ok) {
+                    const returnedValue = await secondResponse.json();
+                    console.log(returnedValue);
+                    Swal.fire({
+                      title: "Success!",
+                      text: "Transaction status updated successfully ✅",
+                      icon: "success",
+                      confirmButtonColor: "#2563EB",
+                    });
+                  } else {
+                    Swal.fire({
+                      title: "Failed!",
+                      text: "Update failed!",
+                      icon: "error",
+                      confirmButtonColor: "#2563EB",
+                    });
+                  }
+                }
+              });
+            } catch (e) {
+              console.log(e);
+            }
+          }
+        });
+      } else {
+        Swal.fire({
+          title: "Failed!",
+          text: "The reservation does not exist or does not belong to this clinic!",
+          icon: "error",
+          confirmButtonColor: "#2563EB",
+        });
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
   return (
-    <main style={{ width: "68%" }} className="h-max mb-5">
+    <main style={{ width: "78%" }} className="h-max mb-5">
       <h1
         className="font-sans font-bold text-5xl mb-5"
         style={{ wordSpacing: "1px" }}
@@ -207,7 +346,7 @@ function AdminDoctorAppointments() {
           {" "}
           {/*START BOOKING SECTION */}
           <section className="bg-white rounded-md shadow-2xl shadow-gray-500 transition-all duration-300 ease-in-out mt-10">
-            <h2 className="pl-5 pr-5 h-16 flex flex-row gap-x-10 justify-between items-center font-sans font-bold border-b border-gray-200 text-gray-700 text-xl">
+            <div className="pl-5 pr-5 h-16 flex flex-row gap-x-10 justify-between items-center font-sans font-bold border-b border-gray-200 text-gray-700 text-xl">
               <div className="bg-transparent w-1/4 h-full flex flex-row justify-between items-center">
                 <h3>#</h3>
                 <h3 className="mr-[30%]">Patient</h3>
@@ -222,8 +361,9 @@ function AdminDoctorAppointments() {
               <div className="bg-transparent w-1/4 h-full flex flex-row justify-between items-center">
                 <h3>Fees</h3>
                 <h3 className="mr-6">Action</h3>
+                <h3>Transaction</h3>
               </div>
-            </h2>
+            </div>
             <div className="mb-10 flex flex-col gap-y-4">
               {appointmentsWithDoctorAdminState.map(function (
                 appointment,
@@ -240,11 +380,13 @@ function AdminDoctorAppointments() {
                     patientImage={""}
                     patientBookingTime={todayDate.toDateString()}
                     bookingStatus={appointment.status}
+                    transactionStatus={"salem"}
                     Payment={"CASH"}
                     Address={appointment.patientAddress}
                     Date_and_Time={"5 Oct 2024, 12:00 PM"}
                     Fees={appointment.totalPrice}
                     SendFromChild={SendFromChild}
+                    SendFromChildForSecondTime={SendFromChildForSecondTime}
                   />
                 );
               })}

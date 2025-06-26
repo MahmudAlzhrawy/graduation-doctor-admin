@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { AppointmentWithDoctorAdmin } from "../AdminDoctorDashboard/AdminDoctorDashboard";
 
+type BookingStatusType = "Pending" | "Completed" | "Cancelled";
 
 interface Props {
   data: AppointmentWithDoctorAdmin[];

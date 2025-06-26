@@ -11,6 +11,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { store } from "@/lib/store";
 import { backendURL } from "@/lib/Slices/auth/authRules";
 import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
 interface AdminDoctorModel {
   address: string;
   email: string;
@@ -41,6 +42,48 @@ const AdminLayout = ({
   });
   const userId = useSelector((state: any) => state.auth.user?.id);
   const userToken = useSelector((state: any) => state.auth.userToken);
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await fetch(
+          `https://citypulse.runasp.net/api/ClinicStaf/by-admin/${
+            store.getState().auth.user?.id
+          }`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json", // or other content types
+              Authorization: `Bearer ${store.getState().auth.userToken}`, // Sending the token as a Bearer token
+            },
+          }
+        );
+        if (response.ok) {
+          const data = await response.json();
+          const clinicId = data?.clinicId;
+          const secondResponse = await fetch(
+            `https://citypulse.runasp.net/api/Clinic/DoctorsByClinicId?clinicId=${clinicId}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json", // or other content types
+              },
+            }
+          );
+          if (secondResponse.ok) {
+            const data = await secondResponse.json();
+            const doctorName = data?.doctorId;
+          } else {
+            toast.error("Error found !");
+          }
+        } else {
+          toast.error("Error found !");
+        }
+      } catch (e) {
+        console.log("Error", e);
+      }
+    }
+    fetchData();
+  }, []);
   useEffect(() => {
     async function fetchData() {
       try {
@@ -100,7 +143,8 @@ const AdminLayout = ({
         sendData={HandleCloseButton}
       />
       {children}
-      {pathname === "/admin-doctor/admin-doctor-profile" ? null : (
+      {pathname === "/admin-doctor/admin-doctor-profile" ||
+      pathname === "/admin-doctor/admin-doctor-appointments" ? null : (
         <div
           style={
             pathname === "/admin-doctor/admin-doctor-appointments"
@@ -152,15 +196,25 @@ const AdminLayout = ({
             <div
               className={
                 pathname === "/admin-doctor/show-all-schduling-dates" ||
-                pathname === "/admin-doctor/admin-doctor-appointments" ||
-                pathname.startsWith("/admin-doctor/update-scheduling-date")
+                pathname === "/admin-doctor/admin-doctor-appointments"
+                  ? "mt-12 profile"
+                  : pathname === "/admin-doctor/admin-doctor-medical-services"
                   ? "mt-12 profile"
                   : "profile"
               }
             >
-              <div className="info">
+              <div
+                className={
+                  pathname === "/admin-doctor" ||
+                  pathname === "/admin-doctor/dashboard" ||
+                  pathname === "/admin-doctor/admin-doctor-reports" ||
+                  pathname === "/admin-doctor/admin-doctor-medical-services"
+                    ? "info mt-2"
+                    : "info"
+                }
+              >
                 <p>
-                  Hey, <b>{adminDoctorObject.nameU}</b>
+                  Hey,<b className="mr-2">{adminDoctorObject.nameU}</b>
                   <span className="text-muted space-x-0.5">Admin Doctor</span>
                 </p>
               </div>
@@ -168,8 +222,7 @@ const AdminLayout = ({
                 <div
                   className={
                     pathname === "/admin-doctor/show-all-schduling-dates" ||
-                    pathname === "/admin-doctor/admin-doctor-appointments" ||
-                    pathname.startsWith("/admin-doctor/update-scheduling-date")
+                    pathname === "/admin-doctor/admin-doctor-appointments"
                       ? "hidden"
                       : "profile-photo bg-slate-300"
                   }
@@ -179,10 +232,7 @@ const AdminLayout = ({
                     alt="adminDoctorAvatar"
                     className={
                       pathname === "/admin-doctor/show-all-schduling-dates" ||
-                      pathname === "/admin-doctor/admin-doctor-appointments" ||
-                      pathname.startsWith(
-                        "/admin-doctor/update-scheduling-date"
-                      )
+                      pathname === "/admin-doctor/admin-doctor-appointments"
                         ? "hidden"
                         : "text-3xl text-indigo-500 rounded-full"
                     }

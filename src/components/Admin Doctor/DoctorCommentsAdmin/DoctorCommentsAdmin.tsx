@@ -5,7 +5,14 @@ import toast from "react-hot-toast";
 import { FaUserCircle, FaStar, FaTrashAlt } from "react-icons/fa";
 import { MdOutlineDateRange } from "react-icons/md";
 import Swal from "sweetalert2";
-
+type Comment = {
+  id: number;
+  userName: string;
+  doctorName: string;
+  comment: string;
+  rating: number;
+  date: string;
+};
 
 interface userRatingModel {
   ratingId: number;
@@ -14,29 +21,30 @@ interface userRatingModel {
   review: string;
   ratingDate: string;
 }
-// const initialComments: Comment[] = [
-//   {
-//     id: 1,
-//     userName: "Ahmed Salah",
-//     doctorName: "Dr. Mona Youssef",
-//     comment: "Very professional and kind!",
-//     rating: 5,
-//     date: "2025-06-15",
-//   },
-//   {
-//     id: 2,
-//     userName: "Sara Adel",
-//     doctorName: "Dr. Kareem Hassan",
-//     comment: "The appointment was delayed, but he explained everything well.",
-//     rating: 4,
-//     date: "2025-06-14",
-//   },
-// ];
+const initialComments: Comment[] = [
+  {
+    id: 1,
+    userName: "Ahmed Salah",
+    doctorName: "Dr. Mona Youssef",
+    comment: "Very professional and kind!",
+    rating: 5,
+    date: "2025-06-15",
+  },
+  {
+    id: 2,
+    userName: "Sara Adel",
+    doctorName: "Dr. Kareem Hassan",
+    comment: "The appointment was delayed, but he explained everything well.",
+    rating: 4,
+    date: "2025-06-14",
+  },
+];
 
 const DoctorCommentsAdmin = () => {
   const [userRatingsState, setUserRatingsState] = useState<userRatingModel[]>(
     []
   );
+  const doctorId = 1;
   useEffect(() => {
     async function fetchData() {
       try {
@@ -95,6 +103,7 @@ const DoctorCommentsAdmin = () => {
     }
     fetchData();
   }, []);
+  const [comments, setComments] = useState<Comment[]>(initialComments);
 
   const handleDelete = async (ratingId: number) => {
     Swal.fire({
