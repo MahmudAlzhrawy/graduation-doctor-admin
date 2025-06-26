@@ -11,6 +11,7 @@ import { usePathname } from "next/navigation";
 import { backendURL } from "@/lib/Slices/auth/authRules";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
+import { store } from "@/lib/store";
 interface AdminDoctorModel {
   address: string;
   email: string;
@@ -73,8 +74,6 @@ const userId = user?.id;
             }
           );
           if (secondResponse.ok) {
-            const data = await secondResponse.json();
-            const doctorName = data?.doctorId;
           } else {
             toast.error("Error found !");
           }

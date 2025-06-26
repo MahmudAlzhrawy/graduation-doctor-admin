@@ -11,7 +11,6 @@ import Booking, { BookingStatus } from "../Booking/Booking";
 import toast from "react-hot-toast";
 import StatusFilterDropdown from "../StatusFilterDropDownList/StatusFilterDropDownList";
 import { store } from "@/lib/store";
-import { CodeSquare } from "lucide-react";
 
 export interface AppointmentWithDoctorAdmin {
   appointmentId: number;

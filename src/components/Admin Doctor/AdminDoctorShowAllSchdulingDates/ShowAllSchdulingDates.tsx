@@ -1,16 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import "../../Admin Doctor/AdminDoctorDashboard/AdminDoctorDashboard.css";
-import { FaSackDollar } from "react-icons/fa6";
-import { FaCalendarAlt } from "react-icons/fa";
-import { IoIosPerson } from "react-icons/io";
-import { SlCalender } from "react-icons/sl";
+
 import { MdOutlineDateRange } from "react-icons/md";
 import Swal from "sweetalert2";
-import toast from "react-hot-toast";
 import { store } from "@/lib/store";
 import AllBookingDateInforamtion from "../Dates/AllBookingDatesInformation";
-import { date } from "yup";
 interface DateWithDoctorAdmin {
   id: number;
   workingDate: string;
@@ -94,51 +89,51 @@ function AdminDoctorDates() {
     fetchData();
   }, []);
 
-  async function SendFromChild(
-    updatedBookingStatus: string,
-    index: number,
-    appointmentId: number,
-    clinicId: number
-  ) {
-    try {
-      const response = await fetch(
-        `https://citypulse.runasp.net/api/ClinicStaf/update-status`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${store.getState().auth.userToken}`, // Sending the token as a Bearer token
-          },
-          body: JSON.stringify({
-            appointmentId: appointmentId,
-            clinicId: clinicId,
-            newStatus: updatedBookingStatus,
-          }),
-        }
-      );
-      if (!response.ok) {
-        toast.error(
-          "The reservation does not exist or does not belong to this doctor!"
-        );
-      } else {
-        const updatedAppointmentsWithDoctorAdminState = [
-          ...appointmentsWithDoctorAdminState,
-        ];
-        updatedAppointmentsWithDoctorAdminState[index] = {
-          ...updatedAppointmentsWithDoctorAdminState[index],
-          status: updatedBookingStatus,
-        };
-        setAppointmentsWithDoctorAdminState(
-          updatedAppointmentsWithDoctorAdminState
-        );
-        toast.success(
-          "Your reservation status has been updated successfully ✅"
-        );
-      }
-    } catch (exception) {
-      console.log(exception);
-    }
-  }
+  // async function SendFromChild(
+  //   updatedBookingStatus: string,
+  //   index: number,
+  //   appointmentId: number,
+  //   clinicId: number
+  // ) {
+  //   try {
+  //     const response = await fetch(
+  //       `https://citypulse.runasp.net/api/ClinicStaf/update-status`,
+  //       {
+  //         method: "PUT",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: `Bearer ${store.getState().auth.userToken}`, // Sending the token as a Bearer token
+  //         },
+  //         body: JSON.stringify({
+  //           appointmentId: appointmentId,
+  //           clinicId: clinicId,
+  //           newStatus: updatedBookingStatus,
+  //         }),
+  //       }
+  //     );
+  //     if (!response.ok) {
+  //       toast.error(
+  //         "The reservation does not exist or does not belong to this doctor!"
+  //       );
+  //     } else {
+  //      const updatedAppointmentsWithDoctorAdminState = [
+  //         ...datesWithDoctorAdminState,
+  //       ];
+
+  //       updatedAppointmentsWithDoctorAdminState[index] = {
+  //         ...updatedAppointmentsWithDoctorAdminState[index],
+  //         status: updatedBookingStatus,
+  //       };
+  //      setDatesWithDoctorAdminState(updatedAppointmentsWithDoctorAdminState);
+
+  //       toast.success(
+  //         "Your reservation status has been updated successfully ✅"
+  //       );
+  //     }
+  //   } catch (exception) {
+  //     console.log(exception);
+  //   }
+  // }
 
   function OnUpdate(dateId: number) {
     window.location.assign(
