@@ -7,8 +7,7 @@ import { IoSunny } from "react-icons/io5";
 import { MdDarkMode } from "react-icons/md";
 import { IoPerson } from "react-icons/io5";
 import useMediaQuery from "../../Hooks/useMediaQuery";
-import { usePathname, useRouter } from "next/navigation";
-import { store } from "@/lib/store";
+import { usePathname } from "next/navigation";
 import { backendURL } from "@/lib/Slices/auth/authRules";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
@@ -40,8 +39,12 @@ const AdminLayout = ({
     profileImage: "",
     userName: "",
   });
-  const userId = useSelector((state: any) => state.auth.user?.id);
-  const userToken = useSelector((state: any) => state.auth.userToken);
+  const user = useSelector((state: { auth: { user?: { id: string } } }) => state.auth.user);
+const userToken = useSelector((state: { auth: { userToken?: string } }) => state.auth.userToken);
+
+// مثال استخدام:
+const userId = user?.id;
+
   useEffect(() => {
     async function fetchData() {
       try {
